@@ -1,5 +1,6 @@
 #COVID Index as a new dimension for CBLB
 #Lewis Sternberg May 2019
+#For all rankings 1 indicators most vulnerable
 
 list.of.packages <- c("tidyverse","WDI","readxl","reshape2","ggplot2","data.table","jsonlite","rvest")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
@@ -23,7 +24,6 @@ names(INFORM)[2] <-"iso3c"
 #Population with basic handwashing facilities - SH.STA.HYGN.ZS (more is better))
 #Hospital beds per 1000 people - SH.MED.BEDS.ZS (more is better)
 #Doctors per 1000 people - SH.MED.PHYS.ZS (more is better)
-#1 indicates most vulnerable
 
 WB_indicators <- c("SP.POP.65UP.TO.ZS","SP.URB.TOTL.IN.ZS","SH.STA.HYGN.ZS","SH.MED.BEDS.ZS","SH.MED.PHYS.ZS")
 for(indicator in WB_indicators[1:2]){
@@ -145,3 +145,4 @@ names(indicators_ranks)[which(names(indicators_ranks)=="ISO 3")] <- "iso3c"
 indicators_ranks <- Reduce(function(x,y) merge(x,y, by="iso3c",all.x=T),
                     list(indicators_ranks ,WFP,cardio,diabetes,hypertension,GFSI,UHC,sleeping,INFORM,SP.POP.65UP.TO.ZS,
                          SP.URB.TOTL.IN.ZS, SH.STA.HYGN.ZS,SH.MED.BEDS.ZS, SH.MED.PHYS.ZS))
+fwrite(indicators_ranks, "data/output - new dimensions rankings.csv")
